@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- <link rel="stylesheet" href="index2.css"> -->
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <nav class="navbar navbar-expand-lg bg-body">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="Index.html">
+                        <!-- Logo -->
+                        <img src="hello hii.png" alt="Logo" height="40" class="d-inline-block">
+                                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                        <form class="d-flex ms-auto " role="search">
+                            <button class="btn btn-outline-success me-3" type="submit">Public View</button>
+
+                            <button class="btn btn-outline-danger me-5" type="submit"> <i
+                                    class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <hr>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col mt-5 d-flex">
+
+
+
+                <div class="box-1 d-flex rounded-3 ms-5 border">
+                    <div class="b1 mt-2">
+                        <h5 class="container">Total Complaints</h5>
+                        <h3 class="container text-primary-emphasis">152</h3>
+                    </div>
+                    <div class="b2 ms-5 me-3">
+                        <i class="fa-solid fa-comment text-primary-emphasis fa-2x mt-4"></i>
+                    </div>
+                </div>
+
+
+                <div class="box-1 d-flex sm-d-none  rounded-3 ms-4 border">
+                    <div class="b1 mt-2">
+                        <h5 class="container">Pending Review</h5>
+                        <h3 class="container text-warning">23</h3>
+                    </div>
+                    <div class="b2 ms-5 me-3">
+                        <i class="fa-solid fa-clock text-warning fa-2x mt-4"></i>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="box-1 d-flex ms-4 rounded-3 border">
+                    <div class="b1 mt-2">
+                        <h5 class="container">Resolved Today</h5>
+                        <h3 class="container text-success">8</h3>
+                    </div>
+                    <div class="b2 ms-5 me-3">
+                        <i class="fa-solid fa-circle-check text-success mt-4 fa-2x"></i>
+                    </div>
+                </div>
+
+
+
+                <div class="box-1 d-flex ms-4 me-5 rounded-3 border">
+                    <div class="b1 mt-2">
+                        <h5 class="container">High Priority</h5>
+                        <h3 class="container text-danger">12</h3>
+                    </div>
+                    <div class="b2 ms-5 me-3">
+                        <i class="fa-solid fa-circle-exclamation mt-4 fa-2x text-danger "></i>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col mt-5 border ">
+
+                <div class="main-div rounded-3  ">
+
+
+                    <div class="first-box  d-flex mt-4 ms-3">
+                        <div class="part-1 ">
+                            <div class="b1 d-flex">
+                                <i class="fa-solid fa-chart-simple fa-2x text-info"></i>
+                                <h3 class="container">Complaint Queue</h3>
+                            </div>
+                            <p>Manage and prioritize complaints based on community impact</p>
+                        </div>
+
+
+                        <div class="part-2 ms-auto d-flex ">
+                            <div class=" dropdown me-4 mt-2">
+                                <button class="btn btn- border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Dropdown button
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="dropdown me-5 mt-2">
+                                <button class="btn btn- border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Dropdown button
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="x1 border mt-4 ms-3 d-flex rounded-3">
+                    <div class="p1">
+                        <div class="b1  mt-3">
+                            <h5 class="container">Parking shortage in zone A</h5>
+                            <p class="container text-secondary">insuffcient parking spaces causing student to be late
+                                for classes </p>
+                        </div>
+
+
+                        <div class="b3 d-flex">
+                            <p class="container text-secondary"> Transportstion </p>
+                            <p class="container text-secondary"> Parking Zone A</p>
+
+                            <p class="container text-secondary"> Filed: 2024-01-13 </p>
+
+                            <p class="container text-secondary"> ID: C001</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="b2 ms-auto">
+
+                        <div class="part1 d-flex mt-4">
+
+                            <i class="fa-solid fa-users text-info fa-1x ms-2 mt-2 "> </i>
+                            <h5 class="container mt-1 text-info">34</h5>
+                            <h6 class="container me-4 mt-1  fs-5">Supporters</h6>
+
+                        </div>
+                        <div class="part2 mt-2 ms-auto d-flex">
+
+                            <div class="dropdown">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    view
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="dropdown ms-3 me-4">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Updates
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                <!-- c-------------------1 -->
+
+
+
+                <div class="x1 border mt-4 ms-3 d-flex rounded-3">
+                    <div class="p1">
+                        <div class="b1  mt-3">
+                            <h5 class="container">Parking shortage in zone A</h5>
+                            <p class="container text-secondary">insuffcient parking spaces causing student to be late
+                                for classes </p>
+                        </div>
+
+
+                        <div class="b3 d-flex">
+                            <p class="container text-secondary"> Transportstion </p>
+                            <p class="container text-secondary"> Parking Zone A</p>
+
+                            <p class="container text-secondary"> Filed: 2024-01-13 </p>
+
+                            <p class="container text-secondary"> ID: C001</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="b2 ms-auto">
+
+                        <div class="part1 d-flex mt-4">
+
+                            <i class="fa-solid fa-users text-info fa-1x ms-2 mt-2 "> </i>
+                            <h5 class="container mt-1 text-info">34</h5>
+                            <h6 class="container me-4 mt-1  fs-5">Supporters</h6>
+
+                        </div>
+                        <div class="part2 mt-2 ms-auto d-flex">
+
+                            <div class="dropdown">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    view
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="dropdown ms-3 me-4">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Updates
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+                <!-- c-------------------2 -->
+
+
+
+
+
+
+                <div class="x1 border mt-4 ms-3 d-flex rounded-3">
+                    <div class="p1">
+                        <div class="b1  mt-3">
+                            <h5 class="container">Parking shortage in zone A</h5>
+                            <p class="container text-secondary">insuffcient parking spaces causing student to be late
+                                for classes </p>
+                        </div>
+
+
+                        <div class="b3 d-flex">
+                            <p class="container text-secondary"> Transportstion </p>
+                            <p class="container text-secondary"> Parking Zone A</p>
+
+                            <p class="container text-secondary"> Filed: 2024-01-13 </p>
+
+                            <p class="container text-secondary"> ID: C001</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="b2 ms-auto">
+
+                        <div class="part1 d-flex mt-4">
+
+                            <i class="fa-solid fa-users text-info fa-1x ms-2 mt-2 "> </i>
+                            <h5 class="container mt-1 text-info">34</h5>
+                            <h6 class="container me-4 mt-1  fs-5">Supporters</h6>
+
+                        </div>
+                        <div class="part2 mt-2 ms-auto d-flex">
+
+                            <div class="dropdown">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    view
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="dropdown ms-3 me-4">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Updates
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+                <!-- c-------------------3 -->
+
+
+
+
+
+
+                <div class="x1 border mt-4 ms-3 d-flex rounded-3">
+                    <div class="p1">
+                        <div class="b1  mt-3">
+                            <h5 class="container">Parking shortage in zone A</h5>
+                            <p class="container text-secondary">insuffcient parking spaces causing student to be late
+                                for classes </p>
+                        </div>
+
+
+                        <div class="b3 d-flex">
+                            <p class="container text-secondary"> Transportstion </p>
+                            <p class="container text-secondary"> Parking Zone A</p>
+
+                            <p class="container text-secondary"> Filed: 2024-01-13 </p>
+
+                            <p class="container text-secondary"> ID: C001</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="b2 ms-auto">
+
+                        <div class="part1 d-flex mt-4">
+
+                            <i class="fa-solid fa-users text-info fa-1x ms-2 mt-2 "> </i>
+                            <h5 class="container mt-1 text-info">34</h5>
+                            <h6 class="container me-4 mt-1  fs-5">Supporters</h6>
+
+                        </div>
+                        <div class="part2 mt-2 ms-auto d-flex">
+
+                            <div class="dropdown">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    view
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="dropdown ms-3 me-4">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Updates
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+                <!-- c-------------------4 -->
+
+
+
+
+
+
+                <div class="x1 border mt-4 ms-3 d-flex rounded-3">
+                    <div class="p1">
+                        <div class="b1  mt-3">
+                            <h5 class="container">Parking shortage in zone A</h5>
+                            <p class="container text-secondary">insuffcient parking spaces causing student to be late
+                                for classes </p>
+                        </div>
+
+
+                        <div class="b3 d-flex">
+                            <p class="container text-secondary"> Transportstion </p>
+                            <p class="container text-secondary"> Parking Zone A</p>
+
+                            <p class="container text-secondary"> Filed: 2024-01-13 </p>
+
+                            <p class="container text-secondary"> ID: C001</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="b2 ms-auto">
+
+                        <div class="part1 d-flex mt-4">
+
+                            <i class="fa-solid fa-users text-info fa-1x ms-2 mt-2 "> </i>
+                            <h5 class="container mt-1 text-info">34</h5>
+                            <h6 class="container me-4 mt-1  fs-5">Supporters</h6>
+
+                        </div>
+                        <div class="part2 mt-2 ms-auto d-flex">
+
+                            <div class="dropdown">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    view
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="dropdown ms-3 me-4">
+                                <button class="btn border dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Updates
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
