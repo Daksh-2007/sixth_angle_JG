@@ -1,0 +1,117 @@
+body {
+  background: linear-gradient(to top, #2F4156, #567C8D, #C8D9E6, #F5EFEB, #FFFFFF);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+
+.logo {
+    position: absolute;   
+    top: -12px;            
+    left: 0px;           
+    width: 120px;         
+    height: auto;         
+}
+
+.row{
+    margin-top: 20px;
+}
+
+/* Sidebar */
+.quick-action {
+  background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,1.0);
+}
+
+.quick-action h6 {
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: black;
+}
+
+.quick-action .nav-link {
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: black;
+  margin-bottom: 6px;
+  transition: 0.3s;
+}
+
+.quick-action .nav-link.active {
+  background: #007bff;
+  color: black;
+  font-weight: 600;
+}
+
+.quick-action .nav-link:hover {
+  background: #e9ecef;
+}
+
+/* Impact panel */
+.your-impact {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,1.0);
+}
+
+.impact_text {
+    margin: 10px 0;
+    font-size: 14px;
+    color: black;
+}
+
+.num_text {
+    font-size: 24px;
+    color: #032b55; /* Bootstrap blue */
+    font-weight: bold;
+    display: block;
+}
+
+.your-impact h6 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.your-impact p {
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+/* Complaint panel */
+.new-complaint {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,1.0);
+  height: 527px;
+}
+
+.new-complaint h5 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.new-complaint p {
+  font-size: 14px;
+}
+
+textarea {
+  resize: none;
+}
+
+
+button{
+  background: linear-gradient(90deg, rgb(3, 3, 253),rgb(98, 98, 252));
+}
+
+button:hover{
+  background: linear-gradient(90deg,rgb(98, 98, 252),rgb(3, 3, 253) );
+}

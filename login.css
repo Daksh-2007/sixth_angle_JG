@@ -1,0 +1,116 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to top, #2F4156, #567C8D, #C8D9E6, #F5EFEB,  #FFFFFF);
+}
+
+.logo {
+    position: absolute;   
+    top: -10px;            
+    left: 0px;           
+    width: 130px;         
+    height: auto;         
+}
+
+
+/*Glass container*/
+.login-box{
+    width: 350px;
+    padding: 40px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.4),    
+        0 0 10px rgba(255, 255, 255, 0.2) inset, 
+        0 2px 6px rgba(255, 255, 255, 0.3);
+
+    color: white;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.login-box h2{
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+/*Imput field*/
+.input-field{
+    position: relative;
+    margin: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+} 
+
+.input-field input{
+    width: 100%;
+    padding: 10px 35px 10px 5px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: black;
+    font-size: 15px;
+}
+
+.input-field label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: rgba(7, 6, 6, 0.7);
+    font-size: 14px;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.input-field input:focus+label,
+.input-field input:not(:placeholder-shown)+label{
+    top: -5px;
+    font-size: 12px;
+    color: rgba(34, 31, 31, 1);
+}
+
+.input-field i{
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(20, 19, 19, 0.7);
+}
+
+/*Remeber me*/
+.option{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin: 15px 0;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+/*button*/
+.button{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.button:hover{
+    background: linear-gradient(90deg, #2575fc, #6a11cb);
+    transform: translateY(-2px);
+}
