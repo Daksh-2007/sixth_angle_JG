@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Issues</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+
+        .container {
+            max-width: 960px;
+        }
+
+        .issue-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .issue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-supported {
+            transition: background-color 0.2s;
+        }
+
+        .btn-supported:hover {
+            background-color: #28a745;
+            /* darker green on hover */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- HEADER -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-bold text-gray-800">Community Issues</a>
+            </div>
+            <nav>
+                <button id="homeBtn" class="bg-transparent text-blue-600 font-semibold py-2 px-4 rounded-full">
+                    Home
+                </button>
+                <button id="aboutUsBtn" class="bg-transparent text-blue-600 font-semibold py-2 px-4 rounded-full">
+                    About Us
+                </button>
+                <button id="submitBtn"
+                    class="bg-green-500 text-white font-semibold py-2 px-4 rounded-full ml-4 shadow-lg hover:bg-green-600 transition-colors">
+                    + Submit Complaints
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+
+        <!-- SEARCH AND FILTER SECTION -->
+        <section class="bg-white rounded-2xl shadow-lg p-6 mb-8 mt-6">
+            <div class="flex items-center mb-4">
+                <i class="fa-solid fa-magnifying-glass text-2xl text-gray-500 mr-4"></i>
+                <h1 class="text-3xl font-bold text-gray-800">Find Issues In Your Community</h1>
+            </div>
+            <p class="text-gray-600 mb-6">Search for specific issues or browse by category to find problems you want to
+                support.</p>
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex-grow">
+                    <input type="text" id="searchInput"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Search Complaints">
+                </div>
+
+                <select id="categorySelect"
+                    class="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option value="all">All Categories</option>
+                    <option value="Infrastructure">Infrastructure</option>
+                    <option value="Public Safety">Public Safety</option>
+                    <option value="Environment">Environment</option>
+                    <option value="Academics">Academics</option>
+                </select>
+
+                <select id="statusSelect"
+                    class="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option value="all">All Status</option>
+                    <option value="open">Open</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+
+                <select id="sortSelect"
+                    class="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option value="most-supported">Most Supported</option>
+                    <option value="least-supported">Least Supported</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- ISSUES LISTING -->
+        <section class="bg-white rounded-2xl shadow-lg p-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <span id="issueCount">0</span> Issues Found
+                </h2>
+                <p class="text-gray-600">Sorted by <span id="sortDescription">community support</span></p>
+            </div>
+            <div id="loadingIndicator" class="text-center text-gray-500 py-8">
+                <p>Loading issues...</p>
+            </div>
+            <div id="issuesContainer" class="space-y-6 hidden">
+                <!-- Issues will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- ABOUT US SECTION -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 my-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">About Us</h1>
+            <h4 class="text-2xl font-semibold text-gray-700 mb-2">Report. Support. Resolve.</h4>
+            <p class="text-gray-600 mb-8">Join the community-driven platform where your voice matters. Report issues,
+                support others facing similar problems, and track real solutions.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 border rounded-2xl bg-blue-50">
+                    <i class="fa-solid fa-comment fa-3x text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Report Issues</h3>
+                    <p class="text-gray-600">Submit detailed complaints with photos and location information.</p>
+                </div>
+                <div class="p-6 border rounded-2xl bg-green-50">
+                    <i class="fa-solid fa-users fa-3x text-green-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Support Your Community</h3>
+                    <p class="text-gray-600">Upvote and show support for problems that you believe need attention.</p>
+                </div>
+                <div class="p-6 border rounded-2xl bg-orange-50">
+                    <i class="fa-solid fa-chart-simple fa-3x text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Track Progress</h3>
+                    <p class="text-gray-600">See the status of reported issues and track their progress towards
+                        resolution.</p>
+                </div>
+                <div class="p-6 border rounded-2xl bg-purple-50">
+                    <i class="fa-solid fa-shield-halved fa-3x text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Secure & Anonymous</h3>
+                    <p class="text-gray-600">Your privacy is important. Report issues with confidence.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <script>
+        let issues = [];
+
+        const searchInput = document.getElementById('searchInput');
+        const categorySelect = document.getElementById('categorySelect');
+        const statusSelect = document.getElementById('statusSelect');
+        const sortSelect = document.getElementById('sortSelect');
+        const issuesContainer = document.getElementById('issuesContainer');
+        const issueCountSpan = document.getElementById('issueCount');
+        const sortDescriptionSpan = document.getElementById('sortDescription');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // Function to fetch issues
+        async function fetchIssues() {
+            try {
+                loadingIndicator.classList.remove('hidden');
+                issuesContainer.classList.add('hidden');
+
+                const response = await fetch('api.php');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                issues = await response.json();
+                filterAndSortIssues();
+            } catch (error) {
+                console.error('Error fetching issues:', error);
+                issuesContainer.innerHTML = '<p class="text-center text-red-500 py-8">Failed to load issues. Please check your XAMPP server and database connection.</p>';
+                issuesContainer.classList.remove('hidden');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        // Function to render issues to the DOM
+        function renderIssues(filteredIssues) {
+            issuesContainer.innerHTML = '';
+            issueCountSpan.textContent = filteredIssues.length;
+
+            if (filteredIssues.length === 0) {
+                issuesContainer.innerHTML = '<p class="text-center text-gray-500 py-8">No issues found matching your criteria.</p>';
+                issuesContainer.classList.remove('hidden');
+                return;
+            }
+
+            // Get voted issue ID
+            const votedIssueIds = JSON.parse(localStorage.getItem('votedIssues')) || [];
+
+            filteredIssues.forEach(issue => {
+                const isVoted = votedIssueIds.includes(issue.id);
+                const issueCard = document.createElement('div');
+                issueCard.className = 'issue-card bg-gray-50 border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200';
+                issueCard.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-semibold text-gray-800">${issue.title}</h3>
+                        <span class="text-sm font-medium px-3 py-1 rounded-full text-white ${getStatusBarColor(issue.status)}">${issue.status}</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">${issue.description}</p>
+                    <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <i class="fa-solid fa-location-dot mr-2"></i>
+                        <p class="mr-4">${issue.location}</p>
+                        <i class="fa-regular fa-calendar-days mr-2"></i>
+                        <p class="mr-4">Filed: ${issue.date}</p>
+                        <p>ID: ${issue.id}</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center text-blue-500 font-semibold">
+                            <i class="fa-solid fa-users mr-2"></i>
+                            <p><span id="supports-${issue.id}">${issue.supports}</span> people affected</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="btn-details bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full hover:bg-gray-300 transition-colors">
+                                View Details
+                            </button>
+                            <button data-id="${issue.id}"
+                                    class="btn-vote bg-green-500 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-colors
+                                    ${isVoted ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-green-600'}"
+                                    ${isVoted ? 'disabled' : ''}>
+                                <i class="fa-solid fa-thumbs-up mr-2"></i>${isVoted ? 'Supported' : 'Support'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                issuesContainer.appendChild(issueCard);
+            });
+            issuesContainer.classList.remove('hidden');
+
+            // Add event listeners to the new vote buttons
+            document.querySelectorAll('.btn-vote').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const issueId = event.currentTarget.dataset.id;
+                    voteForIssue(issueId);
+                });
+            });
+        }
+
+        // Function to get the color for the status bar
+        function getStatusBarColor(status) {
+            switch (status) {
+                case 'open':
+                    return 'bg-red-500';
+                case 'in progress':
+                    return 'bg-yellow-500';
+                case 'resolved':
+                    return 'bg-green-500';
+                default:
+                    return 'bg-gray-500';
+            }
+        }
+
+        // Function to handle filtering and sorting
+        function filterAndSortIssues() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categorySelect.value;
+            const selectedStatus = statusSelect.value;
+            const sortBy = sortSelect.value;
+
+            let filteredIssues = issues.filter(issue => {
+                const matchesSearch = issue.title.toLowerCase().includes(searchTerm) || issue.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = selectedCategory === 'all' || issue.category === selectedCategory;
+                const matchesStatus = selectedStatus === 'all' || issue.status === selectedStatus;
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            // Sort the filtered issues
+            if (sortBy === 'most-supported') {
+                filteredIssues.sort((a, b) => b.supports - a.supports);
+                sortDescriptionSpan.textContent = 'community support';
+            } else if (sortBy === 'least-supported') {
+                filteredIssues.sort((a, b) => a.supports - b.supports);
+                sortDescriptionSpan.textContent = 'least community support';
+            } else if (sortBy === 'newest') {
+                filteredIssues.sort((a, b) => new Date(b.date) - new Date(a.date));
+                sortDescriptionSpan.textContent = 'newest';
+            } else if (sortBy === 'oldest') {
+                filteredIssues.sort((a, b) => new Date(a.date) - new Date(b.date));
+                sortDescriptionSpan.textContent = 'oldest';
+            }
+
+            renderIssues(filteredIssues);
+        }
+
+        // Function to handle voting and update the backend
+        async function voteForIssue(issueId) {
+            try {
+                // Check if the user has already voted for this issue
+                const votedIssueIds = JSON.parse(localStorage.getItem('votedIssues')) || [];
+                if (votedIssueIds.includes(issueId)) {
+                    // Alert the user, or do nothing since the button is disabled
+                    return;
+                }
+
+                // Call API to update vote
+                const response = await fetch('api.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ issueId: issueId }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    // Find the issue in the local array and update its supports count
+                    const issue = issues.find(i => i.id === issueId);
+                    if (issue) {
+                        issue.supports = result.newSupports;
+                        // Add issue ID to local storage to prevent future votes
+                        votedIssueIds.push(issueId);
+                        localStorage.setItem('votedIssues', JSON.stringify(votedIssueIds));
+                        // Re-render to reflect the updated sort order and disable the button
+                        filterAndSortIssues();
+                    }
+                } else {
+                    console.error('API Error:', result.error);
+                }
+            } catch (error) {
+                console.error('Error updating vote:', error);
+            }
+        }
+
+        // Add event listeners for the filter and sort controls
+        searchInput.addEventListener('input', filterAndSortIssues);
+        categorySelect.addEventListener('change', filterAndSortIssues);
+        statusSelect.addEventListener('change', filterAndSortIssues);
+        sortSelect.addEventListener('change', filterAndSortIssues);
+
+        // Handle button clicks for navigation (simulated)
+        submitBtn.addEventListener('click', () => {
+            alert('Redirecting to the "Report a New Problem" page.');
+        });
+
+        // Initial fetch of issues when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchIssues();
+        });
+    </script>
+</body>
+
+</html>

@@ -11,22 +11,22 @@
 </head>
 <body>
 
-    <img src="logo.png" alt="Fair act" class="logo">
+    <img src="logo.png" alt="Fair Act" class="logo">
 
-    <div class="login-box"><!--__Sign in box__-->
+    <div class="login-box"><!--Sign in box-->
         <h2>LOGIN</h2>
 
-        <form action="#">
-            <!--email-->
+        <form id="loginForm" method="POST" action="login.php">
+            <!-- user name-->
             <div class="input-field">
-                <input type="text" id="text" required placeholder=" ">
+                <input type="text" id="username" name="username" required placeholder=" ">
                 <label for="text">Username</label>
                 <i class="fa-solid fa-envelope"></i>
             </div>
 
-            <!--Password-->
+            <!-- password-->
             <div class="input-field">
-                <input type="password" id="password" required placeholder=" ">
+                <input type="password" id="password" name="password" required placeholder=" ">
                 <label for="password">Password</label>
                 <i class="fa-solid fa-lock"></i>
             </div>
