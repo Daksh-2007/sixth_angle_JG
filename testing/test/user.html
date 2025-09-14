@@ -1,0 +1,143 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Issues</title>
+    <link rel="stylesheet" href="login.css">
+    <script>
+        async function fetchIssues() {
+            const response = await fetch('api.php');
+            const issues = await response.json();
+            const issuesContainer = document.getElementById('issues-container');
+            issuesContainer.innerHTML = '';
+
+            issues.forEach(issue => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <h3>${issue.title}</h3>
+                    <p>${issue.description}</p>
+                    <p>Supports: ${issue.supports}</p>
+                    <button onclick="toggleSupport(${issue.id}, this)" ${issue.user_supported ? 'disabled' : ''}>
+                        ${issue.user_supported ? 'Supported' : 'Support'}
+                    </button>
+                `;
+                issuesContainer.appendChild(div);
+            });
+        }
+
+        async function toggleSupport(issueId, button) {
+            const response = await fetch('api.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ issueId })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                button.disabled = true;
+                button.textContent = 'Supported';
+                const supportsSpan = button.previousElementSibling;
+                supportsSpan.textContent = `Supports: ${result.newSupports}`;
+            }
+        }
+
+        window.onload = fetchIssues;
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="logo.png" alt="FairAct Logo">
+        </div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="add.html">+ Submit Complaints</a></li>
+        </ul>
+    </nav>
+
+    <section class="search-section">
+        <h2>Find Issues In Your Community</h2>
+        <p>Search for specific issues or browse by category to find problems you want to support.</p>
+        <div class="filters">
+            <select>
+                <option>All Categories</option>
+                <option>Infrastructure</option>
+                <option>Public Safety</option>
+                <option>Environment</option>
+                <option>Academics</option>
+            </select>
+            <select>
+                <option>All Status</option>
+                <option>Open</option>
+                <option>In Progress</option>
+                <option>Resolved</option>
+            </select>
+            <select>
+                <option>Most Supported</option>
+                <option>Least Supported</option>
+                <option>Newest</option>
+                <option>Oldest</option>
+            </select>
+        </div>
+    </section>
+
+    <section id="issues-container">
+        <h3>0 Issues Found</h3>
+        <p>Sorted by community support</p>
+        <p>Loading issues...</p>
+    </section>
+
+    <section class="about-section">
+        <h2>About Us</h2>
+        <p>Report. Support. Resolve.</p>
+        <p>Join the community-driven platform where your voice matters. Report issues, support others facing similar problems, and track real solutions.</p>
+        <div class="about-cards">
+            <div><h3>Report Issues</h3><p>Submit detailed complaints with photos and location information.</p></div>
+            <div><h3>Support Your Community</h3><p>Upvote and show support for problems that you believe need attention.</p></div>
+            <div><h3>Track Progress</h3><p>See the status of reported issues and track their progress towards resolution.</p></div>
+            <div><h3>Secure & Anonymous</h3><p>Your privacy is important. Report issues with confidence.</p></div>
+        </div>
+    </section>
+</body>
+</html>
