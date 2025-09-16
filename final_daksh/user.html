@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Issues</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+
+        .container {
+            max-width: 960px;
+        }
+
+        .issue-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            background: linear-gradient(120deg, #f8fafc 80%, #e5e7eb 100%);
+            border-radius: 1.25rem;
+            box-shadow: 0 2px 16px rgba(60, 72, 88, 0.06);
+        }
+
+        .issue-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 8px 24px rgba(60, 72, 88, 0.10);
+        }
+
+        .btn-vote,
+        .btn-details {
+            transition: box-shadow 0.2s, background 0.2s;
+        }
+
+        .btn-vote {
+            box-shadow: 0 1px 4px rgba(71, 85, 105, 0.08);
+            background: linear-gradient(90deg, #64748b 80%, #94a3b8 100%);
+        }
+
+        .btn-vote:hover {
+            background: linear-gradient(90deg, #475569 80%, #64748b 100%);
+            box-shadow: 0 2px 8px rgba(71, 85, 105, 0.12);
+        }
+
+        .btn-details {
+            background: linear-gradient(90deg, #e5e7eb 80%, #f3f4f6 100%);
+        }
+
+        .btn-details:hover {
+            background: linear-gradient(90deg, #cbd5e1 80%, #e5e7eb 100%);
+            box-shadow: 0 1px 4px rgba(71, 85, 105, 0.08);
+        }
+
+        .about-card {
+            background: linear-gradient(120deg, #f3f4f6 80%, #e5e7eb 100%);
+            border-radius: 1.25rem;
+            box-shadow: 0 1px 8px rgba(60, 72, 88, 0.06);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-100 via-white to-slate-200 min-h-screen">
+
+    <!-- HEADER -->
+    <header class="bg-white/90 shadow-md backdrop-blur-md">
+        <div class="container mx-auto px-4 py-6 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="#" class="text-3xl font-extrabold text-slate-700 tracking-tight drop-shadow">Community Issues
+                </a>
+            </div>
+            <nav class="flex gap-2">
+                <button id="homeBtn"
+                    class="bg-transparent text-slate-600 font-semibold py-2 px-5 rounded-full hover:bg-slate-100 transition">
+                    Home
+                </button>
+                <button id="aboutUsBtn"
+                    class="bg-transparent text-slate-600 font-semibold py-2 px-5 rounded-full hover:bg-slate-100 transition">
+                    <a href="about_us.html"> About Us</a>
+                </button>
+                <button id="submitBtn"
+                    class="bg-gradient-to-r from-slate-400 to-slate-600 text-white font-bold py-2 px-6 rounded-full ml-4 shadow-md hover:from-slate-500 hover:to-slate-700 transition">
+                    + Submit Complaints
+                </button>
+                <a href="login.php?logout=1"
+                    class="bg-transparent text-red-500 font-semibold py-2 px-5 rounded-full border border-red-200 hover:bg-red-50 transition ml-2">
+                    Logout
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+
+        <!-- SEARCH AND FILTER SECTION -->
+        <section class="bg-white/90 rounded-3xl shadow-lg p-8 mb-10 mt-8">
+            <div class="flex items-center mb-6">
+                <i class="fa-solid fa-magnifying-glass text-3xl text-slate-400 mr-5"></i>
+                <h1 class="text-4xl font-extrabold text-slate-800 tracking-tight">Find Issues In Your Community</h1>
+            </div>
+            <p class="text-slate-600 mb-8 text-lg">Search for specific issues or browse by category to find problems you
+                want to support.</p>
+            <div class="flex flex-wrap items-center gap-6">
+                <div class="flex-grow">
+                    <input type="text" id="searchInput"
+                        class="w-full px-5 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-400 text-lg bg-slate-50"
+                        placeholder="Search Complaints">
+                </div>
+
+                <select id="categorySelect"
+                    class="px-5 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-400 text-lg bg-slate-50">
+                    <option value="*">All Categories</option>
+                    <option value="Infrastructure">Infrastructure</option>
+                    <option value="Public Safety">Public Safety</option>
+                    <option value="Environment">Environment</option>
+                    <option value="Academics">Academics</option>
+                </select>
+
+                <select id="statusSelect"
+                    class="px-5 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-400 text-lg bg-slate-50">
+                    <option value="all">All Status</option>
+                    <option value="open">Open</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+
+                <select id="sortSelect"
+                    class="px-5 py-3 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-400 text-lg bg-slate-50">
+                    <option value="most-supported">Most Supported</option>
+                    <option value="least-supported">Least Supported</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- ISSUES LISTING -->
+        <section class="bg-white/90 rounded-3xl shadow-lg p-8">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">
+                    <span id="issueCount">0</span> Issues Found
+                </h2>
+                <p class="text-slate-600 text-lg">Sorted by <span id="sortDescription">community support</span></p>
+            </div>
+            <div id="loadingIndicator" class="text-center text-slate-400 py-10 text-xl">
+                <p>Loading issues...</p>
+            </div>
+            <div id="issuesContainer" class="space-y-8 hidden">
+                <!-- Issues will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Modal for viewing complaint details -->
+        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewModalLabel">Complaint Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Details will be shown here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let issues = [];
+
+        const searchInput = document.getElementById('searchInput');
+        const categorySelect = document.getElementById('categorySelect');
+        const statusSelect = document.getElementById('statusSelect');
+        const sortSelect = document.getElementById('sortSelect');
+        const issuesContainer = document.getElementById('issuesContainer');
+        const issueCountSpan = document.getElementById('issueCount');
+        const sortDescriptionSpan = document.getElementById('sortDescription');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // Function to escape HTML characters
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            return text.replace(/[&<>"']/g, function (m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[m];
+            });
+        }
+
+        // Function to show details in modal
+        function showDetails(title, description, location, category, date, id, supports, status) {
+            document.getElementById('modalBody').innerHTML = `
+                <div class="mb-2"><strong>Title:</strong> ${title}</div>
+                <div class="mb-2"><strong>Description:</strong> <span style="white-space:pre-line">${description}</span></div>
+                <div class="mb-2"><strong>Category:</strong> ${category}</div>
+                <div class="mb-2"><strong>Location:</strong> ${location}</div>
+                <div class="mb-2"><strong>Date Filed:</strong> ${date}</div>
+                <div class="mb-2"><strong>ID:</strong> ${id}</div>
+                <div class="mb-2"><strong>Supporters:</strong> ${supports}</div>
+                <div class="mb-2"><strong>Status:</strong> ${status}</div>
+            `;
+            var modal = new bootstrap.Modal(document.getElementById('viewModal'));
+            modal.show();
+        }
+
+        // Function to fetch issues
+        async function fetchIssues() {
+            try {
+                loadingIndicator.classList.remove('hidden');
+                issuesContainer.classList.add('hidden');
+
+                const response = await fetch('api.php');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                issues = await response.json();
+                filterAndSortIssues();
+            } catch (error) {
+                console.error('Error fetching issues:', error);
+                issuesContainer.innerHTML = '<p class="text-center text-red-500 py-8">Failed to load issues. Please check your XAMPP server and database connection.</p>';
+                issuesContainer.classList.remove('hidden');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        // Function to render issues to the DOM
+        function renderIssues(filteredIssues) {
+            issuesContainer.innerHTML = '';
+            issueCountSpan.textContent = filteredIssues.length;
+
+            if (filteredIssues.length === 0) {
+                issuesContainer.innerHTML = '<p class="text-center text-slate-400 py-10 text-xl">No issues found matching your criteria.</p>';
+                issuesContainer.classList.remove('hidden');
+                return;
+            }
+
+            filteredIssues.forEach(issue => {
+                const issueCard = document.createElement('div');
+                issueCard.className = 'issue-card bg-white/90 border rounded-3xl p-8 shadow-md hover:shadow-lg transition-shadow duration-200';
+                issueCard.innerHTML = `
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-2xl font-bold text-slate-800">${issue.title}</h3>
+                        <span class="text-sm font-medium px-4 py-2 rounded-full text-white ${getStatusBarColor(issue.status)}">${issue.status}</span>
+                    </div>
+                    
+                    <div class="flex items-center text-sm text-slate-500 mb-5 gap-6">
+                        <span class="flex items-center"><i class="fa-solid fa-location-dot mr-2"></i>${issue.location}</span>
+                        <span class="flex items-center"><i class="fa-regular fa-calendar-days mr-2"></i>Filed: ${issue.date}</span>
+                        <span>ID: ${issue.id}</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-6">
+                        <div class="flex items-center text-slate-500 font-semibold text-lg gap-2">
+                            <i class="fa-solid fa-users"></i>
+                            <span id="supports-${issue.id}">${issue.supports}</span> people affected
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <button class="btn-details bg-slate-50 text-slate-700 font-semibold py-2 px-5 rounded-full hover:bg-slate-100 transition"data-bs-toggle="tooltip" title="View Details"
+                                    onclick="showDetails('${escapeHtml(issue.title)}','${escapeHtml(issue.description)}','${escapeHtml(issue.location)}','${escapeHtml(issue.category)}','${escapeHtml(issue.date)}','${issue.id}','${issue.supports}','${escapeHtml(issue.status)}')">
+                                View Details
+                            </button>
+                            <button data-id="${issue.id}"
+                                    class="btn-vote ${issue.user_supported ? 'bg-slate-400' : 'bg-gradient-to-r from-slate-400 to-slate-600'} text-white font-semibold py-2 px-5 rounded-full shadow-md transition"
+                                    >
+                                <i class="fa-solid fa-thumbs-up mr-2"></i>${issue.user_supported ? 'Supported' : 'Support'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                issuesContainer.appendChild(issueCard);
+            });
+            issuesContainer.classList.remove('hidden');
+
+            document.querySelectorAll('.btn-vote').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const issueId = event.currentTarget.dataset.id;
+                    const issue = issues.find(i => i.id == issueId);
+                    // Toggle support/undo
+                    if (issue.user_supported) {
+                        await voteForIssue(issueId, 'undo');
+                    } else {
+                        await voteForIssue(issueId, 'support');
+                    }
+                });
+            });
+        }
+
+        // Function to get the color for the status bar
+        function getStatusBarColor(status) {
+            switch (status) {
+                case 'open':
+                    return 'bg-red-500';
+                case 'in progress':
+                    return 'bg-yellow-500';
+                case 'resolved':
+                    return 'bg-green-500';
+                default:
+                    return 'bg-gray-500';
+            }
+        }
+
+        // Function to handle filtering and sorting
+        function filterAndSortIssues() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categorySelect.value;
+            const selectedStatus = statusSelect.value;
+            const sortBy = sortSelect.value;
+
+            let filteredIssues = issues.filter(issue => {
+                const matchesSearch =
+                    (issue.title || '').toLowerCase().includes(searchTerm) ||
+                    (issue.description || '').toLowerCase().includes(searchTerm);
+                const matchesCategory = selectedCategory === '*' || issue.category === selectedCategory;
+                const matchesStatus = selectedStatus === 'all' || issue.status === selectedStatus;
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            // Sort the filtered issues
+            if (sortBy === 'most-supported') {
+                filteredIssues.sort((a, b) => b.supports - a.supports);
+                sortDescriptionSpan.textContent = 'community support';
+            } else if (sortBy === 'least-supported') {
+                filteredIssues.sort((a, b) => a.supports - b.supports);
+                sortDescriptionSpan.textContent = 'least community support';
+            } else if (sortBy === 'newest') {
+                filteredIssues.sort((a, b) => new Date(b.date) - new Date(a.date));
+                sortDescriptionSpan.textContent = 'newest';
+            } else if (sortBy === 'oldest') {
+                filteredIssues.sort((a, b) => new Date(a.date) - new Date(b.date));
+                sortDescriptionSpan.textContent = 'oldest';
+            }
+
+            renderIssues(filteredIssues);
+        }
+
+        // Function to handle voting and update the backend
+        async function voteForIssue(issueId, action = 'support') {
+            try {
+                const response = await fetch('api.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ issueId: issueId, action: action }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    const issue = issues.find(i => i.id == issueId);
+                    if (issue) {
+                        issue.supports = result.newSupports;
+                        issue.user_supported = result.user_supported;
+                        filterAndSortIssues();
+                    }
+                } else {
+                    console.error('API Error:', result.error || result.message);
+                }
+            } catch (error) {
+                console.error('Error updating vote:', error);
+            }
+        }
+
+        // Add event listeners for the filter and sort controls
+        searchInput.addEventListener('input', filterAndSortIssues);
+        categorySelect.addEventListener('change', filterAndSortIssues);
+        statusSelect.addEventListener('change', filterAndSortIssues);
+        sortSelect.addEventListener('change', filterAndSortIssues);
+
+        // Handle button clicks for navigation (redirect to new_ticket.html)
+        submitBtn.addEventListener('click', () => {
+            window.location.href = 'new_ticket.html';
+        });
+
+        // Initial fetch of issues when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchIssues();
+        });
+    </script>
+</body>
+
+</html>

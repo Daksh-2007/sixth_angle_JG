@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            font-family: 'Inter', 'Poppins', sans-serif;
+        }
+
+        .dashboard-card {
+            border-radius: 1rem;
+            box-shadow: 0 2px 16px rgba(60, 72, 88, 0.06);
+            background: linear-gradient(120deg, #f8fafc 80%, #e5e7eb 100%);
+            transition: box-shadow 0.2s, transform 0.2s;
+            border: none;
+        }
+
+        .dashboard-card:hover {
+            box-shadow: 0 8px 24px rgba(60, 72, 88, 0.10);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .dashboard-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-metric {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-label {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(60, 72, 88, 0.06);
+        }
+
+        .btn-logout {
+            color: #ef4444;
+            border-color: #fca5a5;
+        }
+
+        .btn-logout:hover {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .card {
+            border-radius: 1rem;
+            border: none;
+        }
+
+        .card-header {
+            border-radius: 1rem 1rem 0 0;
+            background: linear-gradient(90deg, #f8fafc 80%, #e5e7eb 100%);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table {
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: #f3f4f6;
+        }
+
+        .table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background: #f1f5f9;
+        }
+
+        .btn-group .btn {
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-group .btn:hover {
+            box-shadow: 0 2px 8px rgba(60, 72, 88, 0.12);
+            z-index: 2;
+        }
+
+        .badge {
+            font-size: 1rem;
+            padding: 0.5em 0.75em;
+            border-radius: 0.5em;
+        }
+
+        td,
+        th {
+            vertical-align: middle !important;
+            white-space: nowrap;
+        }
+
+        .ellipsis {
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Modal styles */
+        .modal-content {
+            border-radius: 1rem;
+        }
+
+        .chart-container {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 16px rgba(60, 72, 88, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+            max-width: 100%;
+            height: 300px !important;
+            margin: 0 auto;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .chart-title .chart-count {
+            background: linear-gradient(135deg, #3B82F6, #1E40AF);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            min-width: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 991px) {
+            .chart-container {
+                min-height: 280px;
+                padding: 1rem;
+            }
+
+            .chart-container canvas {
+                height: 220px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <nav class="navbar navbar-expand-lg mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="Logo.png" alt="Logo" height="40" class="d-inline-block">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="ms-auto d-flex align-items-center gap-2">
+                    <a href="USER.html" class="btn btn-outline-primary">Public View</a>
+                    <a href="login.php?logout=1" class="btn btn-logout border">Logout <i
+                            class="fa-solid fa-right-from-bracket ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mb-4 text-center fw-bold text-slate-800">Admin Dashboard</h1>
+        <div class="row g-4 mb-5 d-none">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="dashboard-card p-4 text-center">
+                    <div class="dashboard-icon text-primary"><i class="fa-solid fa-comment"></i></div>
+                    <div class="dashboard-metric text-primary" id="totalComplaints">0</div>
+                    <div class="dashboard-label">Total Complaints</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="dashboard-card p-4 text-center">
+                    <div class="dashboard-icon text-warning"><i class="fa-solid fa-clock"></i></div>
+                    <div class="dashboard-metric text-warning" id="pendingReview">0</div>
+                    <div class="dashboard-label">Pending Review</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="dashboard-card p-4 text-center">
+                    <div class="dashboard-icon text-success"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="dashboard-metric text-success" id="resolvedToday">0</div>
+                    <div class="dashboard-label">Resolved Today</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="dashboard-card p-4 text-center">
+                    <div class="dashboard-icon text-danger"><i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div class="dashboard-metric text-danger" id="highPriority">0</div>
+                    <div class="dashboard-label">High Priority</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PIE CHART SECTION -->
+        <div class="row mb-5">
+            <div class="col-12 col-lg-6">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fa-solid fa-chart-pie me-2 text-info"></i>
+                        Problems by Category
+                        <span class="chart-count" id="categoryCount">0</span>
+                    </div>
+                    <canvas id="categoryPieChart"></canvas>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fa-solid fa-chart-bar me-2 text-success"></i>
+                        Status Distribution
+                        <span class="chart-count" id="statusCount">0</span>
+                    </div>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- ISSUE FINDER SECTION -->
+        <section class="bg-white/90 rounded-3xl shadow-lg p-4 mb-4">
+            <div class="row align-items-center mb-3">
+                <div class="col-md-4 mb-2 mb-md-0">
+                    <input type="text" id="adminSearchInput" class="form-control rounded-pill"
+                        placeholder="Search Complaints">
+                </div>
+                <div class="col-md-2 mb-2 mb-md-0">
+                    <select id="adminCategorySelect" class="form-select rounded-pill">
+                        <option value="*">All Categories</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Public Safety">Public Safety</option>
+                        <option value="Environment">Environment</option>
+                        <option value="Academics">Academics</option>
+                        <option value="Electricity">Electricity</option>
+                        <option value="Water">Water</option>
+                        <option value="Road">Road</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Public Transport">Public Transport</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2 mb-md-0">
+                    <select id="adminStatusSelect" class="form-select rounded-pill">
+                        <option value="all">All Status</option>
+                        <option value="open">Open</option>
+                        <option value="in progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="pending">Pending</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2 mb-md-0">
+                    <select id="adminSortSelect" class="form-select rounded-pill">
+                        <option value="most-supported">Most Supported</option>
+                        <option value="least-supported">Least Supported</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+                </div>
+                <div class="col-md-2 text-end" style="color:rgba(0,0,0,0)">
+                    <span id="adminIssueCount">0</span> found
+                </div>
+            </div>
+        </section>
+
+        <div class="card mb-5 rounded-4 shadow-sm">
+            <div class="card-header bg-white border-bottom-0 py-3">
+                <h4 class="mb-0 fw-bold text-slate-800">
+                    <i class="fa-solid fa-chart-simple me-2 text-info"></i>
+                    Complaint Queue
+                </h4>
+                <span class="text-muted">Manage and prioritize complaints based on community impact</span>
+            </div>
+            <div class="card-body bg-white">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Date Filed</th>
+                                <th>Supporters</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="complaintsTableBody">
+                            <!-- Complaints will be shown here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- for viewing complaint details -->
+    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewModalLabel">Complaint Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Details will be shown here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let allComplaints = [];
+        let filteredComplaints = [];
+        let categoryChart = null;
+        let statusChart = null;
+
+        function updateDashboardNumbers(metrics, complaints) {
+            document.getElementById('totalComplaints').textContent =
+                (metrics && typeof metrics.totalComplaints === 'number')
+                    ? metrics.totalComplaints
+                    : (Array.isArray(complaints) ? complaints.length : 0);
+
+            document.getElementById('pendingReview').textContent =
+                (metrics && typeof metrics.pendingReview === 'number')
+                    ? metrics.pendingReview
+                    : (Array.isArray(complaints)
+                        ? complaints.filter(c => c.status === 'open' || c.status === 'pending').length
+                        : 0);
+
+            document.getElementById('resolvedToday').textContent =
+                (metrics && typeof metrics.resolvedToday === 'number')
+                    ? metrics.resolvedToday
+                    : (Array.isArray(complaints)
+                        ? complaints.filter(c => c.status === 'resolved' && c.date && c.date.slice(0, 10) === (new Date()).toISOString().slice(0, 10)).length
+                        : 0);
+
+            document.getElementById('highPriority').textContent =
+                (metrics && typeof metrics.highPriority === 'number')
+                    ? metrics.highPriority
+                    : (Array.isArray(complaints)
+                        ? complaints.filter(c => c.status === 'open' && c.supports >= 20).length
+                        : 0);
+        }
+
+        function updateCategoryChart(complaints) {
+            const ctx = document.getElementById('categoryPieChart').getContext('2d');
+
+            // Count complaints by category
+            const categories = {};
+            complaints.forEach(issue => {
+                const cat = issue.category || 'Uncategorized';
+                categories[cat] = (categories[cat] || 0) + 1;
+            });
+
+            // Define colors for different categories
+            const categoryColors = {
+                'electricity': '#F59E0B',
+                'water': '#06B6D4',
+                'road': '#6B7280',
+                'internet': '#8B5CF6',
+                'public transport': '#10B981',
+                'infrastructure': '#3B82F6',
+                'public safety': '#EF4444',
+                'environment': '#84CC16',
+                'academics': '#F97316',
+                'uncategorized': '#94A3B8'
+            };
+
+            const labels = Object.keys(categories);
+            const data = Object.values(categories);
+            const colors = labels.map(cat => categoryColors[cat.toLowerCase()] || '#94A3B8');
+
+            // Create or update chart
+            if (categoryChart) {
+                // Update existing chart data
+                categoryChart.data.labels = labels;
+                categoryChart.data.datasets[0].data = data;
+                categoryChart.data.datasets[0].backgroundColor = colors;
+                categoryChart.update('active');
+            } else {
+                // Create new chart
+                categoryChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: colors,
+                            borderWidth: 2,
+                            borderColor: '#ffffff',
+                            hoverBorderWidth: 3,
+                            hoverBorderColor: '#374151'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: {
+                            animateRotate: true,
+                            animateScale: true,
+                            duration: 800
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    font: {
+                                        size: 12
+                                    },
+                                    generateLabels: function (chart) {
+                                        const data = chart.data;
+                                        if (data.labels.length && data.datasets.length) {
+                                            const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                            return data.labels.map((label, i) => {
+                                                const value = data.datasets[0].data[i];
+                                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                                return {
+                                                    text: `${label} (${value})`,
+                                                    fillStyle: data.datasets[0].backgroundColor[i],
+                                                    strokeStyle: data.datasets[0].borderColor,
+                                                    lineWidth: data.datasets[0].borderWidth,
+                                                    hidden: false,
+                                                    index: i
+                                                };
+                                            });
+                                        }
+                                        return [];
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                        return `${label}: ${value} complaints (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function updateStatusChart(complaints) {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+
+            // Count complaints by status
+            const statuses = {};
+            complaints.forEach(issue => {
+                const status = issue.status || 'open';
+                statuses[status] = (statuses[status] || 0) + 1;
+            });
+
+            // Define colors for different statuses
+            const statusColors = {
+                'open': '#F59E0B',
+                'in progress': '#3B82F6',
+                'resolved': '#10B981',
+                'closed': '#6B7280',
+                'pending': '#EF4444'
+            };
+
+            const labels = Object.keys(statuses);
+            const data = Object.values(statuses);
+            const colors = labels.map(status => statusColors[status.toLowerCase()] || '#6B7280');
+
+            // Create or update chart
+            if (statusChart) {
+                // Update existing chart data
+                statusChart.data.labels = labels.map(s => s.charAt(0).toUpperCase() + s.slice(1));
+                statusChart.data.datasets[0].data = data;
+                statusChart.data.datasets[0].backgroundColor = colors;
+                statusChart.update('active');
+            } else {
+                // Create new chart
+                statusChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels.map(s => s.charAt(0).toUpperCase() + s.slice(1)),
+                        datasets: [{
+                            data: data,
+                            backgroundColor: colors,
+                            borderWidth: 2,
+                            borderColor: '#ffffff',
+                            hoverBorderWidth: 3,
+                            hoverBorderColor: '#374151'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%',
+                        animation: {
+                            animateRotate: true,
+                            animateScale: true,
+                            duration: 800
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    font: {
+                                        size: 12
+                                    },
+                                    generateLabels: function (chart) {
+                                        const data = chart.data;
+                                        if (data.labels.length && data.datasets.length) {
+                                            const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                            return data.labels.map((label, i) => {
+                                                const value = data.datasets[0].data[i];
+                                                return {
+                                                    text: `${label} (${value})`,
+                                                    fillStyle: data.datasets[0].backgroundColor[i],
+                                                    strokeStyle: data.datasets[0].borderColor,
+                                                    lineWidth: data.datasets[0].borderWidth,
+                                                    hidden: false,
+                                                    index: i
+                                                };
+                                            });
+                                        }
+                                        return [];
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                        return `${label}: ${value} complaints (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function updateCharts(complaints) {
+            updateCategoryChart(complaints);
+            updateStatusChart(complaints);
+
+            // Update chart counts
+            document.getElementById('categoryCount').textContent = complaints.length;
+            document.getElementById('statusCount').textContent = complaints.length;
+        }
+
+        fetch('api.php?dashboard=1')
+            .then(res => res.json())
+            .then(data => {
+                updateDashboardNumbers(data.metrics, data.complaints);
+
+                // check for valid data structure
+                if (!data || !Array.isArray(data.complaints)) {
+                    document.getElementById('totalComplaints').textContent = 0;
+                    document.getElementById('pendingReview').textContent = 0;
+                    document.getElementById('resolvedToday').textContent = 0;
+                    document.getElementById('highPriority').textContent = 0;
+                    document.getElementById('adminIssueCount').textContent = 0;
+                    renderComplaintsTable([]);
+                    document.getElementById('complaintsTableBody').innerHTML =
+                        `<tr><td colspan="7" class="text-center text-danger">API returned invalid data.</td></tr>`;
+                    return;
+                }
+
+                allComplaints = data.complaints;
+                filteredComplaints = [...allComplaints];
+                renderComplaintsTable(filteredComplaints);
+
+                document.getElementById('adminIssueCount').textContent = filteredComplaints.length;
+
+                // Create charts
+                updateCharts(data.complaints);
+            })
+            .catch(() => {
+                updateDashboardNumbers({}, []);
+                renderComplaintsTable([]);
+                document.getElementById('complaintsTableBody').innerHTML =
+                    `<tr><td colspan="7" class="text-center text-danger">Failed to load data from API.</td></tr>`;
+            });
+
+        // Enhanced filter and sort logic for admin
+        function filterAndSortAdminComplaints() {
+            const searchTerm = document.getElementById('adminSearchInput').value.toLowerCase();
+            const selectedCategory = document.getElementById('adminCategorySelect').value;
+            const selectedStatus = document.getElementById('adminStatusSelect').value;
+            const sortBy = document.getElementById('adminSortSelect').value;
+
+            filteredComplaints = allComplaints.filter(issue => {
+                const matchesSearch =
+                    issue.title.toLowerCase().includes(searchTerm) ||
+                    (issue.description || '').toLowerCase().includes(searchTerm) ||
+                    (issue.location || '').toLowerCase().includes(searchTerm) ||
+                    (issue.category || '').toLowerCase().includes(searchTerm) ||
+                    (issue.status || '').toLowerCase().includes(searchTerm) ||
+                    String(issue.id).includes(searchTerm);
+                const matchesCategory = selectedCategory === '*' || issue.category === selectedCategory;
+                const matchesStatus = selectedStatus === 'all' || issue.status === selectedStatus;
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            // Sort logic
+            if (sortBy === 'most-supported') {
+                filteredComplaints.sort((a, b) => b.supports - a.supports);
+            } else if (sortBy === 'least-supported') {
+                filteredComplaints.sort((a, b) => a.supports - b.supports);
+            } else if (sortBy === 'newest') {
+                filteredComplaints.sort((a, b) => new Date(b.date) - new Date(a.date));
+            } else if (sortBy === 'oldest') {
+                filteredComplaints.sort((a, b) => new Date(a.date) - new Date(b.date));
+            }
+
+            document.getElementById('adminIssueCount').textContent = filteredComplaints.length;
+            renderComplaintsTable(filteredComplaints);
+
+            // Update charts with filtered data
+            updateCharts(filteredComplaints);
+        }
+
+        // Render complaints table with filteredComplaints
+        function renderComplaintsTable(complaints) {
+            const tbody = document.getElementById('complaintsTableBody');
+            tbody.innerHTML = '';
+            if (!complaints || complaints.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No complaints found.</td></tr>`;
+                return;
+            }
+            complaints.forEach(issue => {
+                const statusBadge = issue.status === 'resolved'
+                    ? '<span class="badge bg-success">Resolved</span>'
+                    : issue.status === 'pending'
+                        ? '<span class="badge bg-warning text-dark">Pending</span>'
+                        : issue.status === 'in progress'
+                            ? '<span class="badge bg-info text-dark">In Progress</span>'
+                            : issue.status === 'closed'
+                                ? '<span class="badge bg-secondary">Closed</span>'
+                                : '<span class="badge bg-primary">' + (issue.status || 'Open') + '</span>';
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="ellipsis" title="${issue.title}">${issue.title}</td>
+                        <td>${issue.category || 'Uncategorized'}</td>
+                        <td class="ellipsis" title="${issue.location}">${issue.location}</td>
+                        <td>${issue.date}</td>
+                        <td><span class="badge bg-info text-dark">${issue.supports}</span></td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Details"
+                                    onclick="showDetails('${escapeHtml(issue.title)}','${escapeHtml(issue.description)}','${escapeHtml(issue.location)}','${escapeHtml(issue.category)}','${escapeHtml(issue.date)}','${issue.id}','${issue.supports}','${escapeHtml(issue.status)}')">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" title="Mark as Resolved"
+                                    onclick="updateStatus(${issue.id}, 'resolved')">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete"
+                                    onclick="deleteIssue(${issue.id})">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            // Enable tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+
+        // Add event listeners for admin finder controls
+        document.getElementById('adminSearchInput').addEventListener('input', filterAndSortAdminComplaints);
+        document.getElementById('adminCategorySelect').addEventListener('change', filterAndSortAdminComplaints);
+        document.getElementById('adminStatusSelect').addEventListener('change', filterAndSortAdminComplaints);
+        document.getElementById('adminSortSelect').addEventListener('change', filterAndSortAdminComplaints);
+
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            return text.replace(/[&<>"']/g, function (m) {
+                return ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                })[m];
+            });
+        }
+
+        function showDetails(title, description, location, category, date, id, supports, status) {
+            document.getElementById('modalBody').innerHTML = `
+                <div class="mb-2"><strong>Title:</strong> ${title}</div>
+                <div class="mb-2"><strong>Description:</strong> <span style="white-space:pre-line">${description}</span></div>
+                <div class="mb-2"><strong>Category:</strong> ${category}</div>
+                <div class="mb-2"><strong>Location:</strong> ${location}</div>
+                <div class="mb-2"><strong>Date Filed:</strong> ${date}</div>
+                <div class="mb-2"><strong>ID:</strong> ${id}</div>
+                <div class="mb-2"><strong>Supporters:</strong> ${supports}</div>
+                <div class="mb-2"><strong>Status:</strong> ${status}</div>
+            `;
+            var modal = new bootstrap.Modal(document.getElementById('viewModal'));
+            modal.show();
+        }
+
+        function updateStatus(id, status) {
+            fetch('api.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, status })
+            })
+                .then(res => res.json())
+                .then(() => location.reload());
+        }
+
+        function deleteIssue(id) {
+            if (!confirm('Are you sure you want to delete this issue?')) return;
+            fetch('api.php', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            })
+                .then(res => res.json())
+                .then(() => location.reload());
+        }
+    </script>
+</body>
+
+</html>
